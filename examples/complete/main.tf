@@ -23,27 +23,25 @@ module "sumo_telemetry_shipper" {
 }
 
 module "resource_names" {
-  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
+  version = "~> 1.0"
 
   for_each = var.resource_names_map
 
-  logical_product_name = var.naming_prefix
-  region               = join("", split("-", var.region))
-  class_env            = var.environment
-  cloud_resource_type  = each.value.name
-  instance_env         = var.environment_number
-  instance_resource    = var.resource_number
-  maximum_length       = each.value.max_length
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  region                  = join("", split("-", var.region))
+  class_env               = var.class_env
+  cloud_resource_type     = each.value.name
+  instance_env            = var.instance_env
+  instance_resource       = var.instance_resource
+  maximum_length          = each.value.max_length
 }
 
-module "s3_failed_logs_bucket" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-s3_bucket.git?ref=1.0.0"
 
-  naming_prefix      = var.naming_prefix
-  environment        = var.environment
-  environment_number = var.environment_number
-  region             = var.region
-  resource_number    = var.resource_number
+module "s3_failed_logs_bucket" {
+  source  = "terraform.registry.launch.nttdata.com/module_collection/s3_bucket/aws"
+  version = "~> 1.0"
 
   use_default_server_side_encryption = true
 

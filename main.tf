@@ -10,43 +10,50 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+data "aws_caller_identity" "current" {}
+
 module "resource_names" {
-  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
+  version = "~> 1.0"
 
   for_each = var.resource_names_map
 
-  logical_product_name = var.naming_prefix
-  region               = join("", split("-", var.region))
-  class_env            = var.environment
-  cloud_resource_type  = each.value.name
-  instance_env         = var.environment_number
-  instance_resource    = var.resource_number
-  maximum_length       = each.value.max_length
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  region                  = join("", split("-", var.region))
+  class_env               = var.class_env
+  cloud_resource_type     = each.value.name
+  instance_env            = var.instance_env
+  instance_resource       = var.instance_resource
+  maximum_length          = each.value.max_length
 }
 
 module "cloudwatch_log_group_wrapper" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-cloudwatch_logs?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_collection/cloudwatch_logs/aws"
+  version = "~> 1.0"
 
   cloudwatch_log_group_name                 = module.resource_names["log_group"].standard
   create_cloudwatch_log_stream              = var.create_cloudwatch_log_stream
   create_cloudwatch_log_subscription_filter = var.create_cloudwatch_log_subscription_filter
   cloudwatch_log_stream_name                = module.resource_names["log_stream"].standard
   subscription_filter_name                  = module.resource_names["subscription_filter"].standard
-  firehose_delivery_stream_arn              = module.logs_firehose_delivery_stream.delivery_stream_arn
+  firehose_delivery_stream_arn              = module.logs_firehose_delivery_stream.arn
   subscription_filter_role                  = module.logs_producer_role.assumable_iam_role
 }
 
 module "cloudwatch_metric_stream" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-cloudwatch_metric_stream.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/cloudwatch_metric_stream/aws"
+  version = "~> 1.0"
 
   metric_stream_name  = module.resource_names["metrics_stream"].standard
-  delivery_stream_arn = module.metrics_firehose_delivery_stream.delivery_stream_arn
+  delivery_stream_arn = module.metrics_firehose_delivery_stream.arn
   producer_role_arn   = module.metrics_producer_role.assumable_iam_role
   metrics_namespaces  = var.cloudwatch_metrics_namespaces
 }
 
 module "logs_firehose_delivery_stream" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-firehose_delivery_stream?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/firehose_delivery_stream/aws"
+  version = "~> 1.0"
 
   delivery_stream_name   = module.resource_names["logs_delivery_stream"].standard
   http_endpoint_name     = var.sumologic_kinesis_logs_source_http_endpoint_name
@@ -57,7 +64,8 @@ module "logs_firehose_delivery_stream" {
 }
 
 module "metrics_firehose_delivery_stream" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-firehose_delivery_stream?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/firehose_delivery_stream/aws"
+  version = "~> 1.0"
 
   delivery_stream_name   = module.resource_names["metrics_delivery_stream"].standard
   http_endpoint_name     = var.sumologic_kinesis_metrics_source_http_endpoint_name
@@ -68,9 +76,9 @@ module "metrics_firehose_delivery_stream" {
 }
 
 module "logs_producer_role" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
+  version = "~> 1.0"
 
-  naming_prefix      = var.naming_prefix
   environment        = var.environment
   environment_number = var.environment_number
   region             = var.region
@@ -101,9 +109,9 @@ data "aws_iam_policy_document" "logs_producer_policy" {
 }
 
 module "logs_consumer_role" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
+  version = "~> 1.0"
 
-  naming_prefix      = var.naming_prefix
   environment        = var.environment
   environment_number = var.environment_number
   region             = var.region
@@ -132,7 +140,7 @@ data "aws_iam_policy_document" "logs_consumer_policy" {
       "s3:PutObject"
     ]
     resources = [
-      "${var.s3_failed_logs_bucket_arn}",
+      var.s3_failed_logs_bucket_arn,
       "${var.s3_failed_logs_bucket_arn}/*"
     ]
   }
@@ -176,9 +184,9 @@ data "aws_iam_policy_document" "logs_consumer_policy" {
 }
 
 module "metrics_producer_role" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
+  version = "~> 1.0"
 
-  naming_prefix      = var.naming_prefix
   environment        = var.environment
   environment_number = var.environment_number
   region             = var.region
@@ -209,9 +217,9 @@ data "aws_iam_policy_document" "metrics_producer_policy" {
 }
 
 module "metrics_consumer_role" {
-  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
+  source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
+  version = "~> 1.0"
 
-  naming_prefix      = var.naming_prefix
   environment        = var.environment
   environment_number = var.environment_number
   region             = var.region
@@ -240,7 +248,7 @@ data "aws_iam_policy_document" "metrics_consumer_policy" {
       "s3:PutObject"
     ]
     resources = [
-      "${var.s3_failed_logs_bucket_arn}",
+      var.s3_failed_logs_bucket_arn,
       "${var.s3_failed_logs_bucket_arn}/*"
     ]
   }
@@ -282,5 +290,3 @@ data "aws_iam_policy_document" "metrics_consumer_policy" {
     ]
   }
 }
-
-data "aws_caller_identity" "current" {}
