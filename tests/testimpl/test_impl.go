@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 	"testing"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -43,30 +44,19 @@ func TestSumoTelemetryShipperComplete(t *testing.T, ctx types.TestContext) {
 }
 
 func checkARNFormat(t *testing.T, ctx types.TestContext) {
-	expectedLogGroupPatternARN := "^arn:aws:logs:[a-z0-9-]+:[0-9]{12}:log-group:[a-zA-Z0-9-]+$"
-	expectedLogStreamPatternARN := "^arn:aws:logs:[a-z0-9-]+:[0-9]{12}:log-group:[a-zA-Z0-9-]+:log-stream:[a-zA-Z0-9-]+$"
-	expectedMetricStreamPatternARN := "^arn:aws:cloudwatch:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$"
-	expectedFirehoseStreamPatternARN := "^arn:aws:firehose:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$"
+	arnPatterns := map[string]string{
+		"cloudwatch_log_group_arn":    "^arn:aws:logs:[a-z0-9-]+:[0-9]{12}:log-group:[a-zA-Z0-9-]+$",
+		"cloudwatch_log_stream_arn":   "^arn:aws:logs:[a-z0-9-]+:[0-9]{12}:log-group:[a-zA-Z0-9-]+:log-stream:[a-zA-Z0-9-]+$",
+		"cloudwatch_metric_stream_arn": "^arn:aws:cloudwatch:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$",
+		"logs_delivery_stream_arn":    "^arn:aws:firehose:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$",
+		"metrics_delivery_stream_arn": "^arn:aws:firehose:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$",
+	}
 
-	actualLogGroupARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudwatch_log_group_arn")
-	assert.NotEmpty(t, actualLogGroupARN, "Log Group ARN is empty")
-	assert.Regexp(t, expectedLogGroupPatternARN, strings.Trim(actualLogGroupARN, "[]"), "Log Group ARN does not match expected pattern")
-
-	actualLogStreamARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudwatch_log_stream_arn")
-	assert.NotEmpty(t, actualLogStreamARN, "Log Stream ARN is empty")
-	assert.Regexp(t, expectedLogStreamPatternARN, strings.Trim(actualLogStreamARN, "[]"), "Log Stream ARN does not match expected pattern")
-
-	actualMetricStreamARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudwatch_metric_stream_arn")
-	assert.NotEmpty(t, actualMetricStreamARN, "Metric Stream ARN is empty")
-	assert.Regexp(t, expectedMetricStreamPatternARN, actualMetricStreamARN, "Metric Stream ARN does not match expected pattern")
-
-	actualLogDeliveryStreamARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "logs_delivery_stream_arn")
-	assert.NotEmpty(t, actualLogDeliveryStreamARN, "Log Delivery Stream ARN is empty")
-	assert.Regexp(t, expectedFirehoseStreamPatternARN, actualLogDeliveryStreamARN, "Log Delivery Stream ARN does not match expected pattern")
-
-	actualMetricDeliveryStreamARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "metrics_delivery_stream_arn")
-	assert.NotEmpty(t, actualMetricDeliveryStreamARN, "Metric Delivery Stream ARN is empty")
-	assert.Regexp(t, expectedFirehoseStreamPatternARN, actualMetricDeliveryStreamARN, "Metric Delivery Stream ARN does not match expected pattern")
+	for outputKey, pattern := range arnPatterns {
+		actualARN := terraform.Output(t, ctx.TerratestTerraformOptions(), outputKey)
+		assert.NotEmpty(t, actualARN, fmt.Sprintf("%s is empty", outputKey))
+		assert.Regexp(t, pattern, strings.Trim(actualARN, "[]"), fmt.Sprintf("%s does not match expected pattern", outputKey))
+	}
 }
 
 func checkLogGroup(t *testing.T, ctx types.TestContext) {
