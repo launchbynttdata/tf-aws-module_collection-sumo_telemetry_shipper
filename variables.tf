@@ -38,7 +38,7 @@ variable "resource_number" {
 }
 
 variable "resource_names_map" {
-  description = "A map of key to resource_name that will be used by tf-module-resource_name to generate resource names."
+  description = "A map of key to resource_name that will be used by tf-launch-module_library-resource_name to generate resource names."
   type = map(object(
     {
       name       = string
@@ -126,13 +126,13 @@ variable "sumologic_kinesis_metrics_source_http_endpoint_url" {
 }
 
 variable "logs_path_expression" {
-  description = "Path to the data within the S3 Bucket. If utilizing the tf-aws-module-firehose_delivery_stream module, set this value to s3_error_output_prefix and include the trailing slash. Will automatically append http-endpoint-failed/* as required by Sumo Logic."
+  description = "Path to the data within the S3 Bucket. If utilizing the tf-aws-module_primitive-firehose_delivery_stream module, set this value to s3_error_output_prefix and include the trailing slash. Will automatically append http-endpoint-failed/* as required by Sumo Logic."
   type        = string
   default     = null
 }
 
 variable "metrics_path_expression" {
-  description = "Path to the data within the S3 Bucket. If utilizing the tf-aws-module-firehose_delivery_stream module, set this value to s3_error_output_prefix and include the trailing slash. Will automatically append http-endpoint-failed/* as required by Sumo Logic."
+  description = "Path to the data within the S3 Bucket. If utilizing the tf-aws-module_primitive-firehose_delivery_stream module, set this value to s3_error_output_prefix and include the trailing slash. Will automatically append http-endpoint-failed/* as required by Sumo Logic."
   type        = string
   default     = null
 }

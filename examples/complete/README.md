@@ -17,8 +17,8 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_sumo_telemetry_shipper"></a> [sumo\_telemetry\_shipper](#module\_sumo\_telemetry\_shipper) | ../.. | n/a |
-| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | git::https://github.com/nexient-llc/tf-module-resource_name.git | 0.1.0 |
-| <a name="module_s3_failed_logs_bucket"></a> [s3\_failed\_logs\_bucket](#module\_s3\_failed\_logs\_bucket) | git::https://github.com/nexient-llc/tf-aws-wrapper_module-s3_bucket.git | 0.1.0 |
+| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git | 1.0.0 |
+| <a name="module_s3_failed_logs_bucket"></a> [s3\_failed\_logs\_bucket](#module\_s3\_failed\_logs\_bucket) | git::https://github.com/launchbynttdata/tf-aws-module_collection-s3_bucket.git | 1.0.0 |
 
 ## Resources
 
@@ -39,7 +39,7 @@ No resources.
 | <a name="input_sumologic_kinesis_metrics_source_http_endpoint_url"></a> [sumologic\_kinesis\_metrics\_source\_http\_endpoint\_url](#input\_sumologic\_kinesis\_metrics\_source\_http\_endpoint\_url) | URL of the Kinesis Metrics source HTTP endpoint used as destination by Kinesis data firehose. | `string` | n/a | yes |
 | <a name="input_create_cloudwatch_log_stream"></a> [create\_cloudwatch\_log\_stream](#input\_create\_cloudwatch\_log\_stream) | Flag to indicate if AWS cloudwatch log stream should be created. | `bool` | `false` | no |
 | <a name="input_create_cloudwatch_log_subscription_filter"></a> [create\_cloudwatch\_log\_subscription\_filter](#input\_create\_cloudwatch\_log\_subscription\_filter) | Flag to indicate if AWS cloudwatch log subscription filter should be created. | `bool` | `false` | no |
-| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-module-resource\_name to generate resource names. | <pre>map(object(<br>    {<br>      name       = string<br>      max_length = optional(number, 60)<br>    }<br>  ))</pre> | <pre>{<br>  "s3_failed_logs_bucket": {<br>    "name": "s3-failed-logs"<br>  }<br>}</pre> | no |
+| <a name="input_resource_names_map"></a> [resource\_names\_map](#input\_resource\_names\_map) | A map of key to resource\_name that will be used by tf-launch-module\_library-resource\_name to generate resource names. | <pre>map(object(<br>    {<br>      name       = string<br>      max_length = optional(number, 60)<br>    }<br>  ))</pre> | <pre>{<br>  "s3_failed_logs_bucket": {<br>    "name": "s3-failed-logs"<br>  }<br>}</pre> | no |
 
 ## Outputs
 

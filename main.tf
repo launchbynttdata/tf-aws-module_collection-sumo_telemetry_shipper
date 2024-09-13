@@ -11,7 +11,7 @@
 // limitations under the License.
 
 module "resource_names" {
-  source = "git::https://github.com/nexient-llc/tf-module-resource_name.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.0"
 
   for_each = var.resource_names_map
 
@@ -25,7 +25,7 @@ module "resource_names" {
 }
 
 module "cloudwatch_log_group_wrapper" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-cloudwatch_logs?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-cloudwatch_logs?ref=1.0.0"
 
   cloudwatch_log_group_name                 = module.resource_names["log_group"].standard
   create_cloudwatch_log_stream              = var.create_cloudwatch_log_stream
@@ -37,7 +37,7 @@ module "cloudwatch_log_group_wrapper" {
 }
 
 module "cloudwatch_metric_stream" {
-  source = "git::https://github.com/nexient-llc/tf-aws-module-cloudwatch_metric_stream.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-cloudwatch_metric_stream.git?ref=1.0.0"
 
   metric_stream_name  = module.resource_names["metrics_stream"].standard
   delivery_stream_arn = module.metrics_firehose_delivery_stream.delivery_stream_arn
@@ -46,7 +46,7 @@ module "cloudwatch_metric_stream" {
 }
 
 module "logs_firehose_delivery_stream" {
-  source = "git::https://github.com/nexient-llc/tf-aws-module-firehose_delivery_stream?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-firehose_delivery_stream?ref=1.0.0"
 
   delivery_stream_name   = module.resource_names["logs_delivery_stream"].standard
   http_endpoint_name     = var.sumologic_kinesis_logs_source_http_endpoint_name
@@ -57,7 +57,7 @@ module "logs_firehose_delivery_stream" {
 }
 
 module "metrics_firehose_delivery_stream" {
-  source = "git::https://github.com/nexient-llc/tf-aws-module-firehose_delivery_stream?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-firehose_delivery_stream?ref=1.0.0"
 
   delivery_stream_name   = module.resource_names["metrics_delivery_stream"].standard
   http_endpoint_name     = var.sumologic_kinesis_metrics_source_http_endpoint_name
@@ -68,7 +68,7 @@ module "metrics_firehose_delivery_stream" {
 }
 
 module "logs_producer_role" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-iam_assumable_role.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
@@ -101,7 +101,7 @@ data "aws_iam_policy_document" "logs_producer_policy" {
 }
 
 module "logs_consumer_role" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-iam_assumable_role.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
@@ -176,7 +176,7 @@ data "aws_iam_policy_document" "logs_consumer_policy" {
 }
 
 module "metrics_producer_role" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-iam_assumable_role.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
@@ -209,7 +209,7 @@ data "aws_iam_policy_document" "metrics_producer_policy" {
 }
 
 module "metrics_consumer_role" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-iam_assumable_role.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment

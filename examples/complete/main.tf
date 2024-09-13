@@ -23,7 +23,7 @@ module "sumo_telemetry_shipper" {
 }
 
 module "resource_names" {
-  source = "git::https://github.com/nexient-llc/tf-module-resource_name.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.0"
 
   for_each = var.resource_names_map
 
@@ -37,7 +37,7 @@ module "resource_names" {
 }
 
 module "s3_failed_logs_bucket" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-s3_bucket.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-s3_bucket.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
