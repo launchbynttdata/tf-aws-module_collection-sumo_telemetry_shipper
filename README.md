@@ -176,16 +176,16 @@ If `make check` target is successful, developer is good to commit the code to pr
 
 | Name | Description |
 |------|-------------|
-| <a name="output_cloudwatch_log_group_arn"></a> [cloudwatch\_log\_group\_arn](#output\_cloudwatch\_log\_group\_arn) | n/a |
+| <a name="output_cloudwatch_log_group_arn"></a> [cloudwatch\_log\_group\_arn](#output\_cloudwatch\_log\_group\_arn) | ARN of the cloudwatch log group. |
 | <a name="output_cloudwatch_log_group_name"></a> [cloudwatch\_log\_group\_name](#output\_cloudwatch\_log\_group\_name) | Name of the cloudwatch log group. |
-| <a name="output_cloudwatch_log_stream_arn"></a> [cloudwatch\_log\_stream\_arn](#output\_cloudwatch\_log\_stream\_arn) | n/a |
+| <a name="output_cloudwatch_log_stream_arn"></a> [cloudwatch\_log\_stream\_arn](#output\_cloudwatch\_log\_stream\_arn) | ARN of the cloudwatch log stream. |
 | <a name="output_cloudwatch_log_stream_name"></a> [cloudwatch\_log\_stream\_name](#output\_cloudwatch\_log\_stream\_name) | Name of the cloudwatch log stream. |
-| <a name="output_cloudwatch_metric_stream_arn"></a> [cloudwatch\_metric\_stream\_arn](#output\_cloudwatch\_metric\_stream\_arn) | n/a |
+| <a name="output_cloudwatch_metric_stream_arn"></a> [cloudwatch\_metric\_stream\_arn](#output\_cloudwatch\_metric\_stream\_arn) | ARN of the metric stream. |
 | <a name="output_cloudwatch_metric_stream_name"></a> [cloudwatch\_metric\_stream\_name](#output\_cloudwatch\_metric\_stream\_name) | Name of the metric stream. |
-| <a name="output_logs_delivery_stream_arn"></a> [logs\_delivery\_stream\_arn](#output\_logs\_delivery\_stream\_arn) | n/a |
+| <a name="output_logs_delivery_stream_arn"></a> [logs\_delivery\_stream\_arn](#output\_logs\_delivery\_stream\_arn) | The ARN of the log delivery stream |
 | <a name="output_logs_delivery_stream_name"></a> [logs\_delivery\_stream\_name](#output\_logs\_delivery\_stream\_name) | The name of the log delivery stream |
-| <a name="output_logs_delivery_stream_destination_id"></a> [logs\_delivery\_stream\_destination\_id](#output\_logs\_delivery\_stream\_destination\_id) | The name of the log delivery stream |
-| <a name="output_metrics_delivery_stream_arn"></a> [metrics\_delivery\_stream\_arn](#output\_metrics\_delivery\_stream\_arn) | n/a |
+| <a name="output_logs_delivery_stream_destination_id"></a> [logs\_delivery\_stream\_destination\_id](#output\_logs\_delivery\_stream\_destination\_id) | The id of the log delivery stream |
+| <a name="output_metrics_delivery_stream_arn"></a> [metrics\_delivery\_stream\_arn](#output\_metrics\_delivery\_stream\_arn) | The ARN of the metrics delivery stream |
 | <a name="output_metrics_delivery_stream_name"></a> [metrics\_delivery\_stream\_name](#output\_metrics\_delivery\_stream\_name) | The name of the metrics delivery stream |
-| <a name="output_metrics_delivery_stream_destination_id"></a> [metrics\_delivery\_stream\_destination\_id](#output\_metrics\_delivery\_stream\_destination\_id) | The name of the metrics delivery stream |
+| <a name="output_metrics_delivery_stream_destination_id"></a> [metrics\_delivery\_stream\_destination\_id](#output\_metrics\_delivery\_stream\_destination\_id) | The id of the metrics delivery stream |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

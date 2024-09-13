@@ -11,7 +11,8 @@
 // limitations under the License.
 
 output "cloudwatch_log_group_arn" {
-  value = module.cloudwatch_log_group_wrapper.cloudwatch_log_group_arn
+  value       = module.cloudwatch_log_group_wrapper.cloudwatch_log_group_arn
+  description = "ARN of the cloudwatch log group."
 }
 
 output "cloudwatch_log_group_name" {
@@ -20,7 +21,8 @@ output "cloudwatch_log_group_name" {
 }
 
 output "cloudwatch_log_stream_arn" {
-  value = module.cloudwatch_log_group_wrapper.cloudwatch_log_stream_arn
+  value       = module.cloudwatch_log_group_wrapper.cloudwatch_log_stream_arn
+  description = "ARN of the cloudwatch log stream."
 }
 
 output "cloudwatch_log_stream_name" {
@@ -30,7 +32,8 @@ output "cloudwatch_log_stream_name" {
 
 
 output "cloudwatch_metric_stream_arn" {
-  value = module.cloudwatch_metric_stream.arn
+  description = "ARN of the metric stream."
+  value       = module.cloudwatch_metric_stream.arn
 }
 
 output "cloudwatch_metric_stream_name" {
@@ -39,7 +42,8 @@ output "cloudwatch_metric_stream_name" {
 }
 
 output "logs_delivery_stream_arn" {
-  value = module.logs_firehose_delivery_stream.arn
+  description = "The ARN of the log delivery stream"
+  value       = module.logs_firehose_delivery_stream.arn
 }
 
 output "logs_delivery_stream_name" {
@@ -48,12 +52,13 @@ output "logs_delivery_stream_name" {
 }
 
 output "logs_delivery_stream_destination_id" {
-  description = "The name of the log delivery stream"
+  description = "The id of the log delivery stream"
   value       = module.logs_firehose_delivery_stream.destination_id
 }
 
 output "metrics_delivery_stream_arn" {
-  value = module.metrics_firehose_delivery_stream.arn
+  description = "The ARN of the metrics delivery stream"
+  value       = module.metrics_firehose_delivery_stream.arn
 }
 
 output "metrics_delivery_stream_name" {
@@ -62,6 +67,6 @@ output "metrics_delivery_stream_name" {
 }
 
 output "metrics_delivery_stream_destination_id" {
-  description = "The name of the metrics delivery stream"
+  description = "The id of the metrics delivery stream"
   value       = module.metrics_firehose_delivery_stream.destination_id
 }
