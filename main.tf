@@ -79,10 +79,12 @@ module "logs_producer_role" {
   source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
   version = "~> 1.0"
 
-  environment        = var.environment
-  environment_number = var.environment_number
-  region             = var.region
-  resource_number    = var.resource_number
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  environment             = var.environment
+  environment_number      = var.environment_number
+  region                  = var.region
+  resource_number         = var.resource_number
 
   resource_names_map = {
     iam_role   = var.resource_names_map["logs_producer_role"]
@@ -112,10 +114,12 @@ module "logs_consumer_role" {
   source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
   version = "~> 1.0"
 
-  environment        = var.environment
-  environment_number = var.environment_number
-  region             = var.region
-  resource_number    = var.resource_number
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  environment             = var.environment
+  environment_number      = var.environment_number
+  region                  = var.region
+  resource_number         = var.resource_number
 
   resource_names_map = {
     iam_role   = var.resource_names_map["logs_consumer_role"]
@@ -187,10 +191,12 @@ module "metrics_producer_role" {
   source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
   version = "~> 1.0"
 
-  environment        = var.environment
-  environment_number = var.environment_number
-  region             = var.region
-  resource_number    = var.resource_number
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  environment             = var.environment
+  environment_number      = var.environment_number
+  region                  = var.region
+  resource_number         = var.resource_number
 
   resource_names_map = {
     iam_role   = var.resource_names_map["metrics_producer_role"]
@@ -220,10 +226,12 @@ module "metrics_consumer_role" {
   source  = "terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws"
   version = "~> 1.0"
 
-  environment        = var.environment
-  environment_number = var.environment_number
-  region             = var.region
-  resource_number    = var.resource_number
+  logical_product_family  = var.logical_product_family
+  logical_product_service = var.logical_product_service
+  environment             = var.environment
+  environment_number      = var.environment_number
+  region                  = var.region
+  resource_number         = var.resource_number
 
   resource_names_map = {
     iam_role   = var.resource_names_map["metrics_consumer_role"]
