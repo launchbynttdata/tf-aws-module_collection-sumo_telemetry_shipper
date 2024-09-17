@@ -10,10 +10,68 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-variable "naming_prefix" {
-  description = "Prefix for the provisioned resources."
+variable "logical_product_family" {
   type        = string
-  default     = "platform"
+  description = <<EOF
+    (Required) Name of the product family for which the resource is created.
+    Example: org_name, department_name.
+  EOF
+  nullable    = false
+  default     = "launch"
+
+  validation {
+    condition     = can(regex("^[_\\-A-Za-z0-9]+$", var.logical_product_family))
+    error_message = "The variable must contain letters, numbers, -, _, and .."
+  }
+}
+
+variable "logical_product_service" {
+  type        = string
+  description = <<EOF
+    (Required) Name of the product service for which the resource is created.
+    For example, backend, frontend, middleware etc.
+  EOF
+  nullable    = false
+  default     = "backend"
+
+  validation {
+    condition     = can(regex("^[_\\-A-Za-z0-9]+$", var.logical_product_service))
+    error_message = "The variable must contain letters, numbers, -, _, and .."
+  }
+}
+
+variable "instance_resource" {
+  type        = number
+  description = "Number that represents the instance of the resource."
+  default     = 0
+
+  validation {
+    condition     = var.instance_resource >= 0 && var.instance_resource <= 100
+    error_message = "Instance number should be between 1 to 100."
+  }
+}
+
+variable "instance_env" {
+  type        = number
+  description = "Number that represents the instance of the environment."
+  default     = 0
+
+  validation {
+    condition     = var.instance_env >= 0 && var.instance_env <= 999
+    error_message = "Instance number should be between 1 to 999."
+  }
+}
+
+variable "class_env" {
+  type        = string
+  default     = "dev"
+  description = "(Required) Environment where resource is going to be deployed. For example. dev, qa, uat"
+  nullable    = false
+
+  validation {
+    condition     = length(regexall("\\b \\b", var.class_env)) == 0
+    error_message = "Spaces between the words are not allowed."
+  }
 }
 
 variable "environment" {
@@ -24,16 +82,27 @@ variable "environment" {
 
 variable "environment_number" {
   description = "The environment count for the respective environment. Defaults to 000. Increments in value of 1"
+  type        = string
   default     = "000"
 }
 
 variable "region" {
-  description = "AWS Region in which the infra needs to be provisioned."
+  type        = string
+  description = <<EOF
+    (Required) The location where the resource will be created. Must not have spaces
+    For example, us-east-1, us-west-2, eu-west-1, etc.
+  EOF
+  nullable    = false
   default     = "us-east-2"
-}
 
+  validation {
+    condition     = length(regexall("\\b \\b", var.region)) == 0
+    error_message = "Spaces between the words are not allowed."
+  }
+}
 variable "resource_number" {
-  description = "The resource count for the respective resource. Defaults to 000. Increments in value of 1."
+  description = "The resource count for the respective resource. Defaults to 000. Increments in value of 1"
+  type        = string
   default     = "000"
 }
 
@@ -47,43 +116,43 @@ variable "resource_names_map" {
   ))
   default = {
     logs_delivery_stream = {
-      name       = "logs-ds"
+      name       = "logsds"
       max_length = 60
     }
     metrics_delivery_stream = {
-      name       = "metrics-ds"
+      name       = "metricsds"
       max_length = 60
     }
     logs_producer_policy = {
-      name       = "logs-prdcr-plcy"
+      name       = "logsprdcrplcy"
       max_length = 60
     }
     logs_producer_role = {
-      name       = "logs-prdcr-role"
+      name       = "logsprdcrrole"
       max_length = 60
     }
     metrics_producer_policy = {
-      name       = "metrics-prdcr-plcy"
+      name       = "metricsprdcrplcy"
       max_length = 60
     }
     metrics_producer_role = {
-      name       = "metrics-prdcr-role"
+      name       = "metricsprdcrrole"
       max_length = 60
     }
     logs_consumer_policy = {
-      name       = "logs-cnsmr-plcy"
+      name       = "logscnsmrplcy"
       max_length = 60
     }
     logs_consumer_role = {
-      name       = "logs-cnsmr-role"
+      name       = "logscnsmrrole"
       max_length = 60
     }
     metrics_consumer_policy = {
-      name       = "metrics-cnsmr-plcy"
+      name       = "metricscnsmrplcy"
       max_length = 60
     }
     metrics_consumer_role = {
-      name       = "metrics-cnsmr-role"
+      name       = "metricscnsmrrole"
       max_length = 60
     }
     log_group = {
@@ -91,7 +160,7 @@ variable "resource_names_map" {
       max_length = 63
     }
     subscription_filter = {
-      name       = "sub-fltr"
+      name       = "subfltr"
       max_length = 63
     }
     log_stream = {
